@@ -1,0 +1,24 @@
+{
+  "name": "resolume-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for Resolume VJ software control and automation",
+  "author": "sandr",
+  "license": "MIT",
+  "homepage": "https://github.com/yourusername/resolume-mcp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/resolume-mcp"
+  },
+  "main": "server/server.py",
+  "mcp": {
+    "version": "1.0",
+    "capabilities": ["tools"]
+  },
+  "runtime": {
+    "python": ">=3.11"
+  },
+  "dependencies": {
+    "fastmcp": ">=2.12.0",
+    "pydantic": ">=2.0.0"
+  }
+}

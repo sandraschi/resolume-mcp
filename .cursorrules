@@ -1,0 +1,264 @@
+# {{REPO_NAME}} Cursor Rules
+
+## 📚 RULE #1: Check Central Documentation First
+
+**BEFORE making any changes, ALWAYS check:**
+
+- **Central Docs Location:** `D:\Dev\repos\mcp-central-docs\`
+- **Standards:** `mcp-central-docs/STANDARDS.md` - Documentation standards
+- **FastMCP Guide:** `mcp-central-docs/FASTMCP_2.12_MIGRATION.md` - Framework standards
+- **MCPB Packaging:** `mcp-central-docs/MCPB_PACKAGING_STANDARDS.md` - Package standards
+- **Patterns:** `mcp-central-docs/patterns/` - Design patterns (portmanteau, etc.)
+- **Templates:** `mcp-central-docs/templates/` - Documentation templates
+- **This Repo Status:** `mcp-central-docs/repos/{{REPO_NAME}}/STATUS.md` - Improvement tracking
+
+**Why central docs?** Single source of truth for all MCP projects. Prevents duplication and ensures consistency.
+
+---
+
+## 🎯 Triple Initiatives (Active)
+
+**This repo is part of three parallel improvement initiatives:**
+
+1. **Great Doc Bash** - Documentation Quality (Target: 9.0+/10)
+2. **GitHub Dash** - CI/CD Modernization (Target: 8.0+/10)
+3. **Release Flash** - Successful Releases (Target: Zero errors, beta tags)
+
+📋 **This Repo's Plan:** `docs-private/TRIPLE_INITIATIVES_GUIDE.md`  
+📊 **Current Status:** {{STATUS}}  
+⚡ **Priority:** {{PRIORITY}}
+
+---
+
+## 📁 Project Overview
+
+{{PROJECT_DESCRIPTION}}
+
+---
+
+## 🛠️ Code Standards
+
+### Python Style
+- **Linter/Formatter**: Use `ruff` (replaces flake8, black, isort)
+- **Type Hints**: Add type hints for all function signatures
+- **Async**: All MCP tools must be async functions
+- **Error Handling**: Always use try/except with proper error messages
+
+### Commands
+```bash
+# Lint check
+uv run ruff check .
+
+# Format
+uv run ruff format .
+
+# Test
+uv run python -m pytest -v
+
+# Full quality check
+uv run ruff check . && uv run ruff format --check . && uv run python -m pytest
+```
+
+### Naming Conventions
+- **Package**: `{{PACKAGE_NAME}}` (underscore, not hyphen!)
+- **Modules**: lowercase with underscores (snake_case)
+- **Classes**: PascalCase (e.g., `{{EXAMPLE_CLASS}}`)
+- **Functions**: snake_case (e.g., `{{EXAMPLE_FUNCTION}}`)
+- **Constants**: UPPER_CASE (e.g., `DEBUG`, `LOG_LEVEL`)
+
+### Import Organization
+```python
+# Standard library
+import os
+import sys
+from typing import Any
+
+# Third-party
+from fastmcp import FastMCP
+{{THIRD_PARTY_IMPORTS}}
+
+# Local imports
+from {{PACKAGE_NAME}}.{{EXAMPLE_MODULE}} import {{EXAMPLE_CLASS}}
+```
+
+---
+
+## 🧪 Testing Requirements
+
+- **Framework**: pytest with pytest-cov
+- **Async Tests**: Use `@pytest.mark.asyncio`
+- **Mocking**: Mock external services and API calls
+- **Coverage**: Aim for 80%+ (GLAMA Gold Standard)
+- **CI/CD**: Tests must pass before release
+
+### Test Patterns
+```python
+import pytest
+
+@pytest.mark.asyncio
+async def test_{{function_name}}():
+    """Test description."""
+    # Arrange
+    # Act
+    result = await function_to_test()
+    # Assert
+    assert result is not None
+```
+
+---
+
+## 🏗️ MCP Tool Development (If Applicable)
+
+### Tool Registration (FastMCP 2.12+)
+```python
+from fastmcp import FastMCP
+
+mcp = FastMCP("{{MCP_SERVER_NAME}}")
+
+@mcp.tool()
+async def tool_name(param: str) -> dict[str, Any]:
+    """
+    Tool description for Claude.
+    
+    Args:
+        param: Parameter description
+        
+    Returns:
+        Dictionary with results
+    """
+    return {"status": "success", "data": result}
+```
+
+### Best Practices
+- **Always**: Return `dict[str, Any]` with status/error fields
+- **Validate**: Check parameters before operations
+- **Log**: Use logger.info/error for operations
+- **Error Handling**: Return error dict, don't raise unless critical
+- **Docstrings**: FastMCP uses full docstrings (no `description` parameter!)
+- **Portmanteau Tools**: Use `Literal` types for action enums
+
+---
+
+## 🚀 Build & Dependency Management
+
+### Using UV (Modern Python Package Manager)
+```bash
+# Install dependencies
+uv sync --dev
+
+# Run commands
+uv run <command>
+
+# Build package
+uv build
+```
+
+### Requirements
+- **Production**: `requirements.txt` or `pyproject.toml` dependencies
+- **Development**: `requirements-dev.txt` or `[project.optional-dependencies]`
+- **Lock File**: `uv.lock` (tracked in git)
+
+---
+
+## 📦 Releasing (Release Flash)
+
+### Pre-Release Checklist
+```bash
+# 1. Zero ruff errors
+uv run ruff check .
+# Should return exit code 0
+
+# 2. Zero ruff format issues
+uv run ruff format --check .
+# Should return exit code 0
+
+# 3. All tests passing
+uv run python -m pytest -v
+# Should return exit code 0
+
+# 4. Version updated
+# Update in: pyproject.toml, __init__.py, any manifest files
+```
+
+### Release Execution
+```bash
+# 1. Commit all changes
+git add -A
+git commit -m "Prepare release v1.0.0b1"
+
+# 2. Create tag
+git tag v1.0.0b1
+
+# 3. Push tag (triggers workflows)
+git push origin v1.0.0b1
+
+# 4. Monitor GitHub Actions
+```
+
+---
+
+## 📋 Common Issues & Solutions
+
+{{COMMON_ISSUES}}
+
+---
+
+## 🔗 Important References
+
+### Central Documentation
+- **Standards**: `D:\Dev\repos\mcp-central-docs\STANDARDS.md`
+- **Doc Bash**: `mcp-central-docs/great-doc-bash/DOC_BASH_PLAN.md`
+- **GitHub Dash**: `mcp-central-docs/great-doc-bash/GITHUB_DASH_PLAN.md`
+- **Release Flash**: `mcp-central-docs/great-doc-bash/RELEASE_FLASH_PLAN.md`
+- **Workflow Strategy**: `mcp-central-docs/docs-private/CURSOR_WORKFLOW_STRATEGY.md`
+
+### This Repo
+- **Triple Plan**: `docs-private/TRIPLE_INITIATIVES_GUIDE.md`
+- **README**: `README.md`
+- **CHANGELOG**: `CHANGELOG.md`
+
+### Advanced Memory
+- Search: "Great Doc Bash", "GitHub Dash", "Release Flash"
+- Search: "{{REPO_NAME}}" for repo-specific notes
+
+---
+
+## 💡 AI Assistant Guidelines
+
+- Be systematic and thorough
+- Fix errors, don't just disable
+- Test locally before committing
+- Update documentation when making changes
+- Follow the triple initiatives improvement plan
+- Use Tier 1 (batch) vs Tier 2 (deep work) appropriately
+- Reference central standards and patterns
+
+---
+
+## 🚫 Unicode Emoji Policy (CODE FILES ONLY)
+
+**This policy applies to CODE and SCRIPTS only** (`.ps1`, `.py`, `.sh`, `.bat`)
+
+**Markdown files (`.md`) can use any emoji** - browsers and editors render them fine.
+
+**In CODE, only these emojis are safe:**
+
+| Category | Allowed |
+|----------|---------|
+| Status | ✅ ❌ ⚠️ ✓ ✗ |
+| Documents | 📚 📁 📋 📦 📊 📄 |
+| Actions | 🎯 🚀 💡 🔗 🔧 ⚙️ |
+| Development | 🛠️ 🧪 🏗️ 💻 |
+| Celebration | ✨ 🎉 🎵 |
+| Arrows | ▶ ◀ ▲ ▼ → ← ↑ ↓ |
+| Other | 💪 🤖 🌐 💬 🔒 🔑 |
+
+**Why?** Terminal fonts and CI logs may render exotic emojis as boxes.
+**In code:** When in doubt, use ASCII or the allowed list above.
+
+---
+
+**Last Updated**: {{LAST_UPDATED}}  
+**Version**: {{VERSION}}
+
+
