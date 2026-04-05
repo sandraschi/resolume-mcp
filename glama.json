@@ -1,0 +1,44 @@
+{
+  "$schema": "https://glama.ai/mcp/schemas/server.json",
+  "maintainers": ["sandraschi"],
+  "name": "resolume-mcp",
+  "description": "Resolume Arena VJ software control via OSC. Live video mixing, clip management, and real-time performance tools for VJing and live visuals.",
+  "type": "mcp_server",
+  "status": "beta",
+  "framework": "FastMCP 2.13+",
+  "tools": 7,
+  "transport": ["stdio"],
+  "keywords": [
+    "resolume",
+    "vj",
+    "live-visuals",
+    "video-mixing",
+    "osc",
+    "real-time",
+    "performance",
+    "fastmcp"
+  ],
+  "features": {
+    "live_performance": {
+      "enabled": true,
+      "capabilities": ["clip-control", "mixing", "effects", "transitions"]
+    },
+    "resource_management": {
+      "enabled": true,
+      "features": ["clip-loading", "composition-management", "asset-organization"]
+    },
+    "osc_integration": {
+      "enabled": true,
+      "protocols": ["osc"],
+      "features": ["real-time-control", "parameter-mapping"]
+    },
+    "vj_workflow": {
+      "enabled": true,
+      "features": ["live-mixing", "cue-management", "performance-tools"]
+    },
+    "status_monitoring": {
+      "enabled": true,
+      "capabilities": ["system-status", "performance-metrics", "connection-health"]
+    }
+  }
+}

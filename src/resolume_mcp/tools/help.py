@@ -39,32 +39,72 @@ async def help(level: str = 'basic', topic: str | None = None) -> str:
         Troubleshooting: help('expert', 'troubleshooting')
     '''
     
-    help_content = f'''# resolume-mcp Help - Level: {level}
-    
-## Quick Start
+    help_content = f'''# resolume-mcp VJ Help - Level: {level}
 
-\\\python
-# Example usage
-from resolume_mcp import resource_manager
+## Quick Start for VJs
 
-# Use the tools...
-\\\
+```python
+# Load a video clip
+clip_control('load', layer=1, clip=1, file_path='C:/videos/my_clip.mp4')
 
-## Available Tools
+# Trigger playback
+clip_control('trigger', layer=1, clip=1)
 
-1. **help** - This multilevel help system
-2. **status** - System status and diagnostics
-3. **resource_manager** - Main operations (customize for your domain)
+# Mix layers with opacity
+layer_control('opacity', layer=2, value=0.7)
 
-## Configuration
+# Set BPM for tempo effects
+performance_control('bpm', bpm=128.0)
+```
 
-See docs/user-guide/ for detailed setup instructions.
+## VJ Workflow Tools
 
-## Support
+### Clip Management
+- **clip_control**: Load, trigger, position, opacity control
+- Load videos, control playback, mix clips in real-time
 
-- Documentation: See docs/
-- Issues: GitHub Issues
-- Standards: D:\\Dev\\repos\\mcp-central-docs\\
+### Layer Control
+- **layer_control**: Opacity, blending, transitions
+- Mix layers, apply blend modes, smooth transitions
+
+### Effects & Parameters
+- **effect_control**: Parameter automation, effect bypassing
+- Control visual effects, automate parameters
+
+### Performance Control
+- **performance_control**: BPM sync, batch operations
+- Tempo-synced effects, atomic parameter changes
+
+## Resolume Setup
+
+### OSC Configuration
+1. Open Resolume Arena → Preferences → OSC
+2. Enable OSC: ✅
+3. Incoming Port: 7000
+4. Outgoing Port: 7001
+5. Send OSC Feedback: ✅ (optional)
+
+### Layer/Clip Numbers
+- Layers: 1-8 (typical setup)
+- Clips: 1-10 per layer
+- Effects: 1-4 per layer
+
+## Live Performance Tips
+
+### Preparation
+- Preload clips before performance
+- Test OSC connection with status()
+- Set BPM before starting
+
+### During Performance
+- Use batch_update for complex transitions
+- Layer opacity for smooth mixing
+- Effect parameters for real-time manipulation
+
+### Emergency Controls
+- layer_control('bypass', layer=X, enabled=False) to disable layers
+- clip_control('clear', layer=X, clip=Y) to remove clips
+- status('basic', 'resolume') to check connection
 '''
     
     return help_content

@@ -14,4 +14,7 @@ def test_tools_import():
     from resolume_mcp import tools
     assert 'help' in tools.__all__
     assert 'status' in tools.__all__
-    assert 'resource_manager' in tools.__all__
+    assert 'clip_control' in tools.__all__
+    assert 'layer_control' in tools.__all__
+    assert 'effect_control' in tools.__all__
+    assert 'performance_control' in tools.__all__

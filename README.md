@@ -1,35 +1,67 @@
-# {Project Name}
+# resolume-mcp
 
-**{1-2 sentence description of what it does}**
+**MCP server for Resolume Arena VJ software control and automation - Live video mixing from natural language commands**
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![FastMCP](https://img.shields.io/badge/FastMCP-2.12%2B-green.svg)](https://github.com/jlowin/fastmcp)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
+[![Resolume](https://img.shields.io/badge/Resolume-Arena-orange.svg)](https://resolume.com/)
 
 ---
 
-## ✨ Features
+##  Features
 
-- {Key feature 1}
-- {Key feature 2}
-- {Key feature 3}
-- {Key feature 4}
-- {Key feature 5}
+-  **Real-time Clip Control** - Load, trigger, position, and opacity control for video clips
+-  **Layer Management** - Opacity, blending modes, transitions, and bypass control
+-  **Effect Automation** - Parameter control and effect bypassing for visual effects
+-  **Performance Tools** - BPM synchronization and atomic batch operations
+-  **OSC Integration** - Direct communication with Resolume Arena via OSC protocol
+-  **Live VJ Support** - Optimized for live video performances and real-time mixing
 
 ---
 
-## 📦 Installation
+## Resolume Arena (host app): demo vs license
 
+**Resolume Arena** is not included in this repoit is the VJ application you control via OSC.
+
+There is **no** separate perpetual free tier. Resolume provides **fully functional demos** (Avenue and Arena) from the [official download page](https://resolume.com/download/): you may use them **as long as you like**; the main limits are a **watermark on output** and **voice reminders** until you purchase a license. See Resolumes [Difference between Avenue and Arena](https://resolume.com/support/en/avenue-arena-difference) (section Demo).
+
+More detail: [docs/user-guide/RESOLUME_ARENA_DEMO_AND_LICENSING.md](docs/user-guide/RESOLUME_ARENA_DEMO_AND_LICENSING.md).
+
+---
+
+##  Installation
+
+### Prerequisites
+- [uv](https://docs.astral.sh/uv/) installed (RECOMMENDED)
+- Python 3.12+
+
+###  Quick Start
+Run immediately via `uvx`:
+```bash
+uvx resolume-mcp
+```
+
+###  Claude Desktop Integration
+Add to your `claude_desktop_config.json`:
+```json
+"mcpServers": {
+  "resolume-mcp": {
+    "command": "uv",
+    "args": ["--directory", "D:/Dev/repos/resolume-mcp", "run", "resolume-mcp"]
+  }
+}
+```
 ### Prerequisites
 
 - Python 3.10 or higher
-- {Requirement 2}
-- {Requirement 3}
-- {Application} installed and configured (if integration)
+- Resolume Arena (or Arena) installed and running
+- OSC enabled in Resolume preferences (ports 7000/7001)
+- Claude Desktop for MCP integration
 
 ### Install via MCPB (Recommended)
 
-1. Download the latest `.mcpb` package from [Releases](https://github.com/your-org/{repo-name}/releases)
+1. Download the latest `.mcpb` package from [Releases](https://github.com/sandr/resolume-mcp/releases)
 2. Drag the `.mcpb` file to Claude Desktop
 3. Configure settings (see [Configuration](#configuration))
 4. Restart Claude Desktop
@@ -38,76 +70,84 @@
 
 ```bash
 # Clone repository
-git clone https://github.com/your-org/{repo-name}.git
-cd {repo-name}
+git clone https://github.com/sandr/resolume-mcp.git
+cd resolume-mcp
 
-# Install with uv (recommended)
-uv sync
-
-# Or with pip
+# Install with pip
 pip install -e .
 ```
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Claude Desktop Configuration
 
-Add to your Claude Desktop config:
+Add to `%APPDATA%\Claude\claude_desktop_config.json`:
 
 ```json
 {
   "mcpServers": {
-    "{server-name}": {
-      "command": "uv",
-      "args": [
-        "--directory",
-        "/absolute/path/to/{repo-name}",
-        "run",
-        "{package-name}"
-      ],
-      "env": {
-        "API_KEY": "your-api-key-here",
-        "TIMEOUT": "30"
-      }
+    "resolume-mcp": {
+      "command": "python",
+      "args": ["-m", "resolume_mcp"]
     }
   }
 }
 ```
 
+**Resolume Setup:**
+1. Open Resolume Arena  **Preferences**  **OSC**
+2. Enable OSC: 
+3. **Incoming Port**: 7000
+4. **Outgoing Port**: 7001
+
 ### First Steps
 
 ```bash
 # Test the installation
-Ask Claude: "What {server-name} tools are available?"
+Ask Claude: "What resolume-mcp tools are available?"
 
-# Try a basic operation
-Ask Claude: "{example query for your tool}"
+# Check Resolume connection
+Ask Claude: "Check Resolume connection status"
+
+# Load your first clip
+Ask Claude: "Load C:/videos/my_clip.mp4 into layer 1, clip 1"
 ```
 
 ---
 
-## 🔧 Configuration
+##  Configuration
 
-### Environment Variables
+### Resolume OSC Setup
 
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `API_KEY` | Yes | - | API key for {service} |
-| `TIMEOUT` | No | `30` | Operation timeout in seconds |
-| `DEBUG` | No | `false` | Enable debug logging |
+**Required Configuration in Resolume Arena:**
+
+1. **Enable OSC**: Preferences  OSC  Enable OSC
+2. **Ports**:
+   - Incoming Port: `7000`
+   - Outgoing Port: `7001`
+3. **IP Address**: `127.0.0.1` (localhost)
+4. **Send Feedback**: Optional (enables parameter monitoring)
+
+### Network Requirements
+
+- Resolume Arena must be running
+- UDP ports 7000-7001 must be available
+- Localhost connectivity required
+- No firewall blocking required for local communication
 
 ### Advanced Configuration
 
-See [docs/configuration.md](docs/configuration.md) for advanced options.
+See [docs/user-guide/](docs/user-guide/) for detailed setup guides.
 
 ---
 
-## 📚 Documentation
+##  Documentation
 
 | Document | Description |
 |----------|-------------|
+| [Resolume demo & licensing](docs/user-guide/RESOLUME_ARENA_DEMO_AND_LICENSING.md) | Official demo mode (watermark), Avenue vs Arena, links |
 | [Integration Guide](docs/integration-guide.md) | Setup with Claude Desktop |
 | [Architecture](docs/architecture.md) | System design and components |
 | [Tool Reference](docs/tools-reference.md) | Complete API documentation |
@@ -116,32 +156,50 @@ See [docs/configuration.md](docs/configuration.md) for advanced options.
 
 ---
 
-## 🎯 Usage Examples
+##  Usage Examples
 
-### Basic Usage
+### Basic VJ Operations
 
 ```bash
-# Example 1: MCP server for Resolume VJ software control and automation
-Ask Claude: "{example query 1}"
+# Load video clips
+Ask Claude: "Load my_clip.mp4 into layer 1, clip 1"
 
-# Example 2: MCP server for Resolume VJ software control and automation
-Ask Claude: "{example query 2}"
+# Control playback
+Ask Claude: "Trigger clip 1 on layer 1"
+
+# Mix layers
+Ask Claude: "Set layer 2 opacity to 70%"
+
+# Apply effects
+Ask Claude: "Set effect parameter 1 on layer 1, effect 1 to 0.8"
 ```
 
-### Advanced Usage
+### Live Performance Workflow
 
-See [docs/examples/](docs/examples/) for more examples.
+```bash
+# Pre-performance setup
+Ask Claude: "Set master BPM to 128"
+
+# During performance
+Ask Claude: "Fade layer 1 to 50% opacity over 2 seconds"
+Ask Claude: "Switch to Add blend mode on layer 2"
+Ask Claude: "Batch update: layer 1 opacity 0.3, layer 2 opacity 0.7, effect 1 param 1 to 0.9"
+```
+
+### Advanced Examples
+
+See [docs/user-guide/](docs/user-guide/) for complete VJ workflow examples.
 
 ---
 
-## 🏗️ Development
+##  Development
 
 ### Setup Development Environment
 
 ```bash
 # Clone repository
-git clone https://github.com/your-org/{repo-name}.git
-cd {repo-name}
+git clone https://github.com/sandr/resolume-mcp.git
+cd resolume-mcp
 
 # Install development dependencies
 uv sync --dev
@@ -178,35 +236,35 @@ uv run mypy .
 
 ---
 
-## 🤝 Contributing
+##  Contributing
 
 Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
 ### Development Workflow
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+2. Create a feature branch (`git checkout -b feature/-feature`)
 3. Make your changes
 4. Run tests and linters
-5. Commit your changes (`git commit -m 'Add amazing feature'`)
-6. Push to the branch (`git push origin feature/amazing-feature`)
+5. Commit your changes (`git commit -m 'Add  feature'`)
+6. Push to the branch (`git push origin feature/-feature`)
 7. Open a Pull Request
 
 ---
 
-## 📋 Changelog
+##  Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for version history and changes.
 
 ---
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - [FastMCP](https://github.com/jlowin/fastmcp) - Modern MCP server framework
 - [Claude Desktop](https://claude.ai/desktop) - AI assistant platform
@@ -214,17 +272,17 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 📞 Support
+##  Support
 
-- **Issues:** [GitHub Issues](https://github.com/your-org/{repo-name}/issues)
-- **Discussions:** [GitHub Discussions](https://github.com/your-org/{repo-name}/discussions)
+- **Issues:** [GitHub Issues](https://github.com/sandr/resolume-mcp/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/sandr/resolume-mcp/discussions)
 - **Email:** your-email@example.com
 
 ---
 
-**Status:** {Production/Beta/Alpha}  
+**Status:** Beta - Ready for live VJ performances  
 **MCP Version:** FastMCP 2.12+  
-**Maintained by:** {Your Name}  
-**Last Updated:** {Date}
+**Maintained by:** Sandra Schipal  
+**Last Updated:** 2025-12-24
 
 
