@@ -239,7 +239,7 @@ def register_resource_tools(mcp):
                         address = f"/composition/layers/{update['layer']}/clips/{update['clip']}/video/opacity"
                         osc_messages.append((address, update["value"]))
                     elif update_type == "effect_param":
-                        address = f"/composition/layers/{update['layer']}/effects/{update['effect']}/params/{update['param']}/value"  # noqa: E501
+                        address = f"/composition/layers/{update['layer']}/effects/{update['effect']}/params/{update['param']}/value"
                         osc_messages.append((address, update["value"]))
 
                 if osc_messages:
