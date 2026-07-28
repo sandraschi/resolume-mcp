@@ -1,0 +1,214 @@
+# resolume-mcp — Comprehensive Reference
+
+## Overview
+
+Resolume Arena VJ software control via Open Sound Control (OSC). This MCP server provides 6 tools for live video mixing, clip management, layer control, effects, and real-time performance orchestration.
+
+## Architecture
+
+```
+Cursor/Claude Desktop --stdio--> Python MCP Server --OSC--> Resolume Arena
+```
+
+The server communicates with Resolume Arena over UDP OSC on ports 7000 (in) and 7001 (out). It requires Resolume Arena to be running on the same machine or network.
+
+## Configuration
+
+### Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| RESOLUME_MCP_HOST | 127.0.0.1 | Host for the Starlette webapp backend |
+| RESOLUME_MCP_PORT | 10771 | Port for the Starlette webapp backend |
+| OSC_IN_PORT | 7000 | Port Resolume receives OSC on |
+| OSC_OUT_PORT | 7001 | Port Resolume sends OSC on |
+| RESOLUME_PATH | (none) | Path to Resolume Arena executable |
+
+### Ports
+
+| Port | Service | Notes |
+|------|---------|-------|
+| 10770 | Frontend (Vite dev) | Web dashboard |
+| 10771 | Backend (Starlette) | REST + MCP HTTP |
+| 7000 | OSC In | Resolume receives |
+| 7001 | OSC Out | Resolume sends |
+
+## Tool Reference
+
+### help
+
+Multilevel help system. Call with no arguments for the index, or pass a topic for specific guidance.
+
+Parameters:
+- topic (str, optional): Help section to retrieve
+
+Returns: dict with success, message, help_text
+
+### status
+
+System diagnostics — checks Resolume connectivity, OSC health, registered tools, and server uptime.
+
+Returns: dict with success, message, resolume_running, osc_connected, tool_count, uptime_seconds
+
+### clip_control
+
+Video clip loading, playback, and manipulation in Resolume compositions. Portmanteau tool with operation discriminator.
+
+Operations:
+- list: List clips in a layer or composition
+- load: Load a clip from file
+- play: Start clip playback
+- stop: Stop clip playback
+- solo: Solo a clip
+- clear: Clear clip from layer
+
+Parameters:
+- operation (Literal): The operation to perform
+- layer (int, optional): Target layer index
+- clip (int, optional): Target clip index
+- path (str, optional): File path for load operation
+
+Returns: dict with success, message, data
+
+### layer_control
+
+Layer opacity, blending modes, and transitions.
+
+Operations:
+- list: List all layers
+- opacity: Set layer opacity (0.0-1.0)
+- blend: Set layer blend mode
+- transition: Apply a transition
+- clear: Clear a layer
+
+Parameters:
+- operation (Literal): The operation to perform
+- layer (int): Target layer index
+- value (float, optional): Opacity value
+- mode (str, optional): Blend mode name
+
+Returns: dict with success, message, data
+
+### effect_control
+
+Effect parameter control on clips and layers.
+
+Operations:
+- list: List available effects
+- list_params: List parameters for a specific effect
+- set: Set an effect parameter value
+- toggle: Toggle effect on/off
+
+Parameters:
+- operation (Literal): The operation to perform
+- layer (int, optional): Target layer
+- clip (int, optional): Target clip
+- effect (str, optional): Effect name
+- param (str, optional): Parameter name
+- value (float, optional): Parameter value
+
+Returns: dict with success, message, data
+
+### performance_control
+
+BPM sync, batch operations, and performance-wide controls.
+
+Operations:
+- set_bpm: Set the global BPM
+- tap_tempo: Trigger BPM tap tempo
+- select_next_layer: Advance to the next layer
+- select_previous_layer: Go to the previous layer
+- toggle_fullscreen: Toggle fullscreen
+- connect: Connect to Resolume by IP
+
+Parameters:
+- operation (Literal): The operation to perform
+- bpm (float, optional): BPM value for set_bpm
+- ip (str, optional): Resolume IP address for connect
+
+Returns: dict with success, message, data
+
+## OSC Protocol
+
+The server sends OSC messages to Resolume Arena following the standard Resolume OSC API:
+
+- `/composition/layers/{idx}/clips/{idx}/video/position` — clip position
+- `/composition/layers/{idx}/opacity` — layer opacity
+- `/composition/tempo` — BPM
+- `/composition/connect` — connect to Resolume
+
+## Troubleshooting
+
+### Resolume Not Responding
+
+1. Ensure Resolume Arena is running
+2. Verify OSC settings in Resolume: Preferences > OSC > Enable OSC input
+3. Check OSC_IN_PORT and OSC_OUT_PORT match Resolume's configuration
+4. Test with a direct OSC monitor tool
+
+### Connection Refused
+
+1. Check no other process is using ports 10770-10771
+2. Verify firewall rules allow localhost connections
+3. Run `netstat -ano | findstr :10771` to check port occupancy
+
+### Webapp Returns "Failed to fetch"
+
+1. Verify backend is running on port 10771
+2. Check CORS configuration allows the webapp origin (should include tauri://localhost)
+3. In dev mode, ensure Vite proxy forwards /api requests to the backend
+
+## Development
+
+### Quick Start
+
+```powershell
+uv sync
+uv run python -m resolume_mcp
+```
+
+### Webapp
+
+```powershell
+cd web_sota
+npm install
+npm run dev
+```
+
+The frontend runs on port 10770 and proxies /api requests to the backend on port 10771.
+
+### Building NSIS Installer
+
+```powershell
+cd native
+.\build.ps1
+```
+
+Output: `native/target/release/bundle/nsis/Resolume_MCP_0.1.0_x64-setup.exe`
+
+### TypeScript Lint
+
+```powershell
+cd web_sota
+npx tsc --noEmit
+```
+
+### Python Lint
+
+```powershell
+uv run ruff check src/
+uv run ruff format src/ --check
+```
+
+## Transport
+
+- Default: stdio (Claude Desktop, Cursor)
+- Optional: HTTP on port 10771 when RESOLUME_MCP_PORT is set
+
+## Dependencies
+
+- Python 3.12+
+- FastMCP >= 3.4.4
+- python-osc (OSC communication)
+- FastAPI + Uvicorn (webapp backend)
+- React + Vite (webapp frontend)

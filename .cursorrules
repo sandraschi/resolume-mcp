@@ -1,4 +1,4 @@
-# {{REPO_NAME}} Cursor Rules
+# resolume-mcp Cursor Rules
 
 ## 📚 RULE #1: Check Central Documentation First
 
@@ -10,7 +10,7 @@
 - **MCPB Packaging:** `mcp-central-docs/MCPB_PACKAGING_STANDARDS.md` - Package standards
 - **Patterns:** `mcp-central-docs/patterns/` - Design patterns (portmanteau, etc.)
 - **Templates:** `mcp-central-docs/templates/` - Documentation templates
-- **This Repo Status:** `mcp-central-docs/repos/{{REPO_NAME}}/STATUS.md` - Improvement tracking
+- **This Repo Status:** `mcp-central-docs/repos/resolume-mcp/STATUS.md` - Improvement tracking
 
 **Why central docs?** Single source of truth for all MCP projects. Prevents duplication and ensures consistency.
 
@@ -25,14 +25,14 @@
 3. **Release Flash** - Successful Releases (Target: Zero errors, beta tags)
 
 📋 **This Repo's Plan:** `docs-private/TRIPLE_INITIATIVES_GUIDE.md`  
-📊 **Current Status:** {{STATUS}}  
-⚡ **Priority:** {{PRIORITY}}
+📊 **Current Status:** Active  
+⚡ **Priority:** Medium
 
 ---
 
 ## 📁 Project Overview
 
-{{PROJECT_DESCRIPTION}}
+A MCP server for Resolume Arena VJ control via OSC with 6 tools.
 
 ---
 
@@ -60,10 +60,10 @@ uv run ruff check . && uv run ruff format --check . && uv run python -m pytest
 ```
 
 ### Naming Conventions
-- **Package**: `{{PACKAGE_NAME}}` (underscore, not hyphen!)
+- **Package**: `resolume_mcp` (underscore, not hyphen!)
 - **Modules**: lowercase with underscores (snake_case)
-- **Classes**: PascalCase (e.g., `{{EXAMPLE_CLASS}}`)
-- **Functions**: snake_case (e.g., `{{EXAMPLE_FUNCTION}}`)
+- **Classes**: PascalCase (e.g., `ResolumeServer`)
+- **Functions**: snake_case (e.g., `clip_control`)
 - **Constants**: UPPER_CASE (e.g., `DEBUG`, `LOG_LEVEL`)
 
 ### Import Organization
@@ -75,10 +75,10 @@ from typing import Any
 
 # Third-party
 from fastmcp import FastMCP
-{{THIRD_PARTY_IMPORTS}}
+
 
 # Local imports
-from {{PACKAGE_NAME}}.{{EXAMPLE_MODULE}} import {{EXAMPLE_CLASS}}
+from resolume_mcp.server import ResolumeServer
 ```
 
 ---
@@ -96,7 +96,7 @@ from {{PACKAGE_NAME}}.{{EXAMPLE_MODULE}} import {{EXAMPLE_CLASS}}
 import pytest
 
 @pytest.mark.asyncio
-async def test_{{function_name}}():
+async def test_example_function():
     """Test description."""
     # Arrange
     # Act
@@ -113,7 +113,7 @@ async def test_{{function_name}}():
 ```python
 from fastmcp import FastMCP
 
-mcp = FastMCP("{{MCP_SERVER_NAME}}")
+mcp = FastMCP("resolume-mcp")
 
 @mcp.tool()
 async def tool_name(param: str) -> dict[str, Any]:
@@ -199,7 +199,9 @@ git push origin v1.0.0b1
 
 ## 📋 Common Issues & Solutions
 
-{{COMMON_ISSUES}}
+- **OSC Connection**: Resolume not running or OSC port mismatch. Check Resolume Preferences > OSC.
+- **Port Conflict**: 10770/10771 occupied by another process. Use `netstat -ano | findstr :10771`.
+- **Frontend "Failed to fetch"**: Backend not started or wrong port in API_BASE config.
 
 ---
 
@@ -219,7 +221,7 @@ git push origin v1.0.0b1
 
 ### Advanced Memory
 - Search: "Great Doc Bash", "GitHub Dash", "Release Flash"
-- Search: "{{REPO_NAME}}" for repo-specific notes
+- Search: "resolume-mcp" for repo-specific notes
 
 ---
 
@@ -258,7 +260,7 @@ git push origin v1.0.0b1
 
 ---
 
-**Last Updated**: {{LAST_UPDATED}}  
-**Version**: {{VERSION}}
+**Last Updated**: 2026-07-21  
+**Version**: 0.1.0
 
 

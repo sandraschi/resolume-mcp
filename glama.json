@@ -5,8 +5,8 @@
   "description": "Resolume Arena VJ software control via OSC. Live video mixing, clip management, and real-time performance tools for VJing and live visuals.",
   "type": "mcp_server",
   "status": "beta",
-  "framework": "FastMCP 2.13+",
-  "tools": 7,
+  "framework": "FastMCP >=3.4.4",
+  "tools": 6,
   "transport": ["stdio"],
   "keywords": [
     "resolume",

@@ -1,4 +1,5 @@
-﻿set windows-shell := ["pwsh.exe", "-NoLogo", "-Command"]
+set windows-shell := ["powershell.exe", "-NoProfile", "-Command"]
+import 'scripts/just/fleet.just'
 
 # ── Dashboard ─────────────────────────────────────────────────────────────────
 
@@ -23,6 +24,33 @@ fix:
     Set-Location '{{justfile_directory()}}\web_sota'
     npx @biomejs/biome check --write .
 
+# ── Serve & Test ─────────────────────────────────────────────────────────────
+
+# Serve the MCP server
+serve:
+    Set-Location '{{justfile_directory()}}'
+    uv run python -m resolume_mcp
+
+# Run tests
+test:
+    Set-Location '{{justfile_directory()}}'
+    uv run pytest tests/ -v
+
+# Format Python code
+fmt:
+    Set-Location '{{justfile_directory()}}'
+    uv run ruff format .
+
+# TypeScript typecheck
+types:
+    Set-Location '{{justfile_directory()}}\web_sota'
+    npx tsc --noEmit
+
+# All gates green
+gates-green: lint types
+    Set-Location '{{justfile_directory()}}'
+    uv run pytest tests/ -q
+
 # ── Hardening ─────────────────────────────────────────────────────────────────
 
 # Execute Bandit security audit
@@ -34,4 +62,3 @@ check-sec:
 audit-deps:
     Set-Location '{{justfile_directory()}}'
     uv run safety check
-

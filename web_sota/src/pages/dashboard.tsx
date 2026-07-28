@@ -6,18 +6,21 @@ const BLEND_MODES = ["Normal","Add","Subtract","Multiply","Screen","Overlay","Ha
 
 export function Dashboard() {
     return (
-        <div className="space-y-6">
+        <div className="space-y-6" data-testid="dashboard">
             <div className="flex items-center justify-between">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight text-white">Resolume Arena</h2>
                     <p className="text-slate-400">VJ performance control — OSC bridge on ports 7000/7001</p>
                 </div>
-                <Badge variant="outline" className="border-emerald-500 text-emerald-400">OSC Active</Badge>
+                <Badge variant="outline" className="border-emerald-500 text-emerald-400">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-1.5" data-testid="backend-dot" />
+                  OSC Active
+                </Badge>
             </div>
 
             {/* KPI Cards */}
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card className="border-slate-800 bg-slate-950/50">
+                <Card className="border-slate-800 bg-slate-950/50" data-testid="kpi-osc">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium text-slate-200">OSC Bridge</CardTitle>
                         <Activity className="h-4 w-4 text-emerald-500" />
@@ -28,7 +31,7 @@ export function Dashboard() {
                     </CardContent>
                 </Card>
 
-                <Card className="border-slate-800 bg-slate-950/50">
+                <Card className="border-slate-800 bg-slate-950/50" data-testid="kpi-layers">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium text-slate-200">Layers</CardTitle>
                         <Layers className="h-4 w-4 text-blue-500" />
@@ -39,7 +42,7 @@ export function Dashboard() {
                     </CardContent>
                 </Card>
 
-                <Card className="border-slate-800 bg-slate-950/50">
+                <Card className="border-slate-800 bg-slate-950/50" data-testid="kpi-clips">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium text-slate-200">Clips/Layer</CardTitle>
                         <Play className="h-4 w-4 text-purple-500" />
@@ -50,7 +53,7 @@ export function Dashboard() {
                     </CardContent>
                 </Card>
 
-                <Card className="border-slate-800 bg-slate-950/50">
+                <Card className="border-slate-800 bg-slate-950/50" data-testid="kpi-bpm">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium text-slate-200">BPM Sync</CardTitle>
                         <Music className="h-4 w-4 text-orange-500" />

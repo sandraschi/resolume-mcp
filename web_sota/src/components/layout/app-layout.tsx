@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Sidebar } from './sidebar';
 import { Topbar } from './topbar';
+import useZoom from '@/common/use-zoom';
+import { useKeyboard } from '@/common/use-keyboard';
 // import { Toaster } from '@/components/ui/toaster';
 
 interface AppLayoutProps {
@@ -8,6 +10,8 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
+    useZoom();
+    useKeyboard();
     const [collapsed, setCollapsed] = useState(false);
 
     // Persist sidebar state

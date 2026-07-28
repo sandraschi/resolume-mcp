@@ -1,0 +1,19 @@
+# resolume-mcp
+
+Resolume Arena VJ software control via Open Sound Control. 6 MCP tools for live video mixing, clip management, and real-time performance.
+
+## Quick Info
+- Entry point: `python -m resolume_mcp`
+- Backend port: 10771
+- Frontend port: 10770
+- OSC ports: 7000 (in), 7001 (out)
+
+## Tools
+- help: Multilevel help system
+- status: System diagnostics
+- clip_control: Video clip loading, playback, manipulation
+- layer_control: Layer opacity, blending, transitions
+- effect_control: Effect parameter control
+- performance_control: BPM sync, batch operations
+
+For comprehensive reference see `docs/development/DEVELOPMENT_GUIDE.md` and `docs/user-guide/`.

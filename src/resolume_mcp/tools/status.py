@@ -1,55 +1,55 @@
-'''System status and diagnostics for resolume-mcp.'''
+"""System status and diagnostics for resolume-mcp."""
 
-from fastmcp import FastMCP
+from typing import Annotated
 
-mcp = FastMCP('resolume-mcp')
+from pydantic import Field
 
 
-@mcp.tool
-async def status(level: str = 'basic', focus: str | None = None) -> str:
-    '''Get system status and diagnostic information including Resolume connection.
+def register_status(mcp):
+    @mcp.tool()
+    async def status(
+        level: Annotated[str, Field(description="Status level: basic, intermediate, advanced, diagnostic")] = "basic",
+        focus: Annotated[str | None, Field(description="Specific focus: system, config, performance, resolume")] = None,
+    ) -> str:
+        """Get system status and diagnostic information including Resolume connection.
 
-    Provides different levels of diagnostic detail:
+        Provides different levels of diagnostic detail:
 
-    LEVELS:
-    - basic: Core system status and Resolume connection
-    - intermediate: Configuration, resources, and VJ setup
-    - advanced: Performance metrics and OSC details
-    - diagnostic: Detailed troubleshooting info
+        LEVELS:
+        - basic: Core system status and Resolume connection
+        - intermediate: Configuration, resources, and VJ setup
+        - advanced: Performance metrics and OSC details
+        - diagnostic: Detailed troubleshooting info
 
-    FOCUS AREAS:
-    - system: System resources and health
-    - config: Configuration validation
-    - performance: Performance metrics
-    - resolume: Resolume connection and OSC status
+        FOCUS AREAS:
+        - system: System resources and health
+        - config: Configuration validation
+        - performance: Performance metrics
+        - resolume: Resolume connection and OSC status
 
-    Args:
-        level (str, default='basic'): Status detail level
-        focus (str, optional): Specific area to focus on
+        ## Return Format
+        {"content": str}
 
-    Returns:
-        Formatted status report
+        ## Examples
+        status()
+        status('basic', 'resolume')
+        status('intermediate', 'config')
+        status('advanced', 'performance')
+        """
 
-    Examples:
-        Basic status: status()
-        Resolume connection: status('basic', 'resolume')
-        Detailed config: status('intermediate', 'config')
-        Performance: status('advanced', 'performance')
-    '''
+        # Import here to avoid circular imports
+        from ..utils.resolume_osc import connection_manager
 
-    # Import here to avoid circular imports
-    from ..utils.resolume_osc import connection_manager
+        # Check Resolume connection
+        resolume_connected = await connection_manager.ensure_connection()
+        resolume_status = "Connected" if resolume_connected else "Not connected"
 
-    # Check Resolume connection
-    resolume_connected = await connection_manager.ensure_connection()
-    resolume_status = "✅ Connected" if resolume_connected else "❌ Not connected"
-
-    status_report = '.1f'f'''# resolume-mcp Status - Level: {level}
+        status_report = f"""# resolume-mcp Status - Level: {level}
 
 ## System Status
-✅ Server running
-✅ Version: 0.1.0
-✅ Configuration: Valid
+Server running
+Version: 0.1.0
+Configuration: Valid
 {resolume_status} to Resolume Arena
 
 ## VJ Tools Available
@@ -64,14 +64,14 @@ async def status(level: str = 'basic', focus: str | None = None) -> str:
 - Host: 127.0.0.1 (localhost)
 - Incoming Port: 7000
 - Outgoing Port: 7001
-'''
+"""
 
-    if level in ['intermediate', 'advanced', 'diagnostic']:
-        status_report += '''
+        if level in ["intermediate", "advanced", "diagnostic"]:
+            status_report += """
 
 ## VJ Setup Recommendations
 ### Resolume Arena Configuration
-1. Enable OSC in Resolume: Preferences → OSC
+1. Enable OSC in Resolume: Preferences -> OSC
 2. Set Incoming Port: 7000
 3. Set Outgoing Port: 7001
 4. Enable "Send OSC Feedback" for parameter monitoring
@@ -86,10 +86,10 @@ async def status(level: str = 'basic', focus: str | None = None) -> str:
 - Preload frequently used clips
 - Use batch_update for complex transitions
 - Monitor OSC traffic with network tools
-'''
+"""
 
-    if level in ['advanced', 'diagnostic']:
-        status_report += '''
+        if level in ["advanced", "diagnostic"]:
+            status_report += """
 
 ## Advanced Diagnostics
 ### OSC Message Patterns
@@ -102,10 +102,10 @@ async def status(level: str = 'basic', focus: str | None = None) -> str:
 - Test connection: Send any OSC message and check Resolume logs
 - Monitor traffic: Use Wireshark on UDP ports 7000-7001
 - Check Resolume: View OSC messages in Resolume's debug console
-'''
+"""
 
-    if focus == 'resolume':
-        status_report = '.1f'f'''# Resolume Connection Status
+        if focus == "resolume":
+            status_report = f"""# Resolume Connection Status
 
 ## Connection Details
 Status: {resolume_status}
@@ -127,6 +127,6 @@ If not connected:
 /composition/layers/1/clips/1/connect
 /composition/layers/1/opacity
 /composition/tempomap/bpm
-'''
+"""
 
-    return status_report
+        return status_report

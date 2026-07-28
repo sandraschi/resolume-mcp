@@ -1,45 +1,42 @@
-'''Multilevel help system for resolume-mcp.
+"""Multilevel help system for resolume-mcp."""
 
-Provides contextual help at multiple knowledge levels.
-'''
+from typing import Annotated
 
-from fastmcp import FastMCP
-
-mcp = FastMCP('resolume-mcp')
+from pydantic import Field
 
 
-@mcp.tool
-async def help(level: str = 'basic', topic: str | None = None) -> str:
-    '''Comprehensive help system with multiple knowledge levels.
-    
-    This tool provides contextual assistance at different depth levels:
-    
-    LEVELS:
-    - basic: Quick start and essential commands
-    - intermediate: Detailed tool descriptions and workflows
-    - advanced: Technical architecture and patterns
-    - expert: Development and troubleshooting
-    
-    TOPICS:
-    - tools: Complete tool reference
-    - config: Configuration options
-    - examples: Usage examples
-    - troubleshooting: Common issues and solutions
-    
-    Args:
-        level (str, default='basic'): Help detail level
-        topic (str, optional): Specific topic to focus on
-    
-    Returns:
-        Contextual help content with examples
-    
-    Examples:
-        Basic overview: help()
-        Detailed tools: help('intermediate', 'tools')
-        Troubleshooting: help('expert', 'troubleshooting')
-    '''
-    
-    help_content = f'''# resolume-mcp VJ Help - Level: {level}
+def register_help(mcp):
+    @mcp.tool()
+    async def help(
+        level: Annotated[str, Field(description="Help detail level: basic, intermediate, advanced, expert")] = "basic",
+        topic: Annotated[str | None, Field(description="Specific topic: tools, config, examples")] = None,
+    ) -> str:
+        """Comprehensive help system with multiple knowledge levels.
+
+        This tool provides contextual assistance at different depth levels:
+
+        LEVELS:
+        - basic: Quick start and essential commands
+        - intermediate: Detailed tool descriptions and workflows
+        - advanced: Technical architecture and patterns
+        - expert: Development and troubleshooting
+
+        TOPICS:
+        - tools: Complete tool reference
+        - config: Configuration options
+        - examples: Usage examples
+        - troubleshooting: Common issues and solutions
+
+        ## Return Format
+        {"content": str}
+
+        ## Examples
+        help()
+        help('intermediate', 'tools')
+        help('expert', 'troubleshooting')
+        """
+
+        help_content = f"""# resolume-mcp VJ Help - Level: {level}
 
 ## Quick Start for VJs
 
@@ -105,6 +102,6 @@ performance_control('bpm', bpm=128.0)
 - layer_control('bypass', layer=X, enabled=False) to disable layers
 - clip_control('clear', layer=X, clip=Y) to remove clips
 - status('basic', 'resolume') to check connection
-'''
-    
-    return help_content
+"""
+
+        return help_content
