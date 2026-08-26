@@ -1,4 +1,4 @@
-use std::fs::{self, OpenOptions};
+﻿use std::fs::{self, OpenOptions};
 use std::io::{BufRead, BufReader, Write};
 use std::net::{SocketAddr, TcpStream};
 use std::path::PathBuf;
@@ -15,7 +15,7 @@ pub struct BackendProcess(pub Mutex<Option<Child>>);
 
 // -- PER-REPO: Customize these constants --
 const BACKEND_NAME: &str = "resolume-mcp-backend.exe";
-const BACKEND_PORT: u16 = 10700;
+const BACKEND_PORT: u16 = 11176;
 const BACKEND_TAG: &str = "resolume-mcp-backend-x86_64-pc-windows-msvc.exe";
 const ENV_PORT: &str = "RESOLUME_MCP_PORT";
 const ENV_HOST: &str = "RESOLUME_MCP_HOST";
