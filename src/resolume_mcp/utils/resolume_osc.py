@@ -48,8 +48,8 @@ class ResolumeOSCClient:
         self.incoming_port = incoming_port
         self.outgoing_port = outgoing_port
 
-        # Create OSC client for sending messages to Resolume
-        self.client = udp_client.SimpleUDPClient(host, outgoing_port)
+        # Commands go to Resolume's *incoming* port (Preferences > OSC > Incoming).
+        self.client = udp_client.SimpleUDPClient(host, incoming_port)
 
         # Connection status
         self.connected = False
@@ -240,7 +240,7 @@ class ResolumeOSCClient:
 class ResolumeConnectionManager:
     """Manages Resolume OSC connection and provides error handling."""
 
-    def __init__(self, host: str = "127.0.0.1", port: int = 7001):
+    def __init__(self, host: str = "127.0.0.1", port: int = 7000):
         self.client: ResolumeOSCClient | None = None
         self.host = host
         self.port = port
@@ -250,7 +250,7 @@ class ResolumeConnectionManager:
         """Get or create OSC client with lazy initialization."""
         async with self._connection_lock:
             if self.client is None:
-                self.client = ResolumeOSCClient(self.host, outgoing_port=self.port)
+                self.client = ResolumeOSCClient(self.host, incoming_port=self.port)
 
             if not self.client.connected:
                 await self.client.connect()
