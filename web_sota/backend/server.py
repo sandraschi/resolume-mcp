@@ -109,10 +109,10 @@ app = FastAPI(title="Resolume MCP", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:10770",
-        "http://127.0.0.1:10770",
-        "http://localhost:10771",
-        "http://127.0.0.1:10771",
+        "http://localhost:11139",
+        "http://127.0.0.1:11139",
+        "http://localhost:11140",
+        "http://127.0.0.1:11140",
         "http://tauri.localhost",
         "https://tauri.localhost",
         "tauri://localhost",

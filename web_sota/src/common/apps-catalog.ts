@@ -45,8 +45,8 @@ export const APPS_CATALOG: AppEntry[] = [
         label: 'Resolume VJ',
         description: 'Live video mixing and VJ performance control',
         icon: MonitorPlay,
-        url: 'http://localhost:10770',
-        port: 10770,
+        url: 'http://localhost:11139',
+        port: 11139,
         tags: ['media', 'vj']
     },
     {

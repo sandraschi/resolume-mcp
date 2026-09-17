@@ -200,7 +200,7 @@ git push origin v1.0.0b1
 ## 📋 Common Issues & Solutions
 
 - **OSC Connection**: Resolume not running or OSC port mismatch. Check Resolume Preferences > OSC.
-- **Port Conflict**: 10770/10771 occupied by another process. Use `netstat -ano | findstr :10771`.
+- **Port Conflict**: 11139/11140 occupied by another process. Use `netstat -ano | findstr :11140`.
 - **Frontend "Failed to fetch"**: Backend not started or wrong port in API_BASE config.
 
 ---

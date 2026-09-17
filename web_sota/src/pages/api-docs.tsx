@@ -35,7 +35,7 @@ export function ApiDocsPage() {
           <CardHeader><CardTitle className="text-sm text-slate-200">OSC</CardTitle></CardHeader>
           <CardContent className="text-xs text-slate-400 space-y-1">
             <code className="block text-purple-400">OSC UDP on ports 7000/7001</code>
-            <code className="block text-purple-400">MCP HTTP at port 10771</code>
+            <code className="block text-purple-400">MCP HTTP at port 11140</code>
           </CardContent>
         </Card>
       </div>

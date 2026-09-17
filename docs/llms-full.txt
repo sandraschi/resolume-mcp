@@ -19,7 +19,7 @@ The server communicates with Resolume Arena over UDP OSC on ports 7000 (in) and 
 | Variable | Default | Description |
 |----------|---------|-------------|
 | RESOLUME_MCP_HOST | 127.0.0.1 | Host for the Starlette webapp backend |
-| RESOLUME_MCP_PORT | 10771 | Port for the Starlette webapp backend |
+| RESOLUME_MCP_PORT | 11140 | Port for the Starlette webapp backend |
 | OSC_IN_PORT | 7000 | Port Resolume receives OSC on |
 | OSC_OUT_PORT | 7001 | Port Resolume sends OSC on |
 | RESOLUME_PATH | (none) | Path to Resolume Arena executable |
@@ -28,8 +28,8 @@ The server communicates with Resolume Arena over UDP OSC on ports 7000 (in) and 
 
 | Port | Service | Notes |
 |------|---------|-------|
-| 10770 | Frontend (Vite dev) | Web dashboard |
-| 10771 | Backend (Starlette) | REST + MCP HTTP |
+| 11139 | Frontend (Vite dev) | Web dashboard |
+| 11140 | Backend (Starlette) | REST + MCP HTTP |
 | 7000 | OSC In | Resolume receives |
 | 7001 | OSC Out | Resolume sends |
 
@@ -148,13 +148,13 @@ The server sends OSC messages to Resolume Arena following the standard Resolume 
 
 ### Connection Refused
 
-1. Check no other process is using ports 10770-10771
+1. Check no other process is using ports 11139-11140
 2. Verify firewall rules allow localhost connections
-3. Run `netstat -ano | findstr :10771` to check port occupancy
+3. Run `netstat -ano | findstr :11140` to check port occupancy
 
 ### Webapp Returns "Failed to fetch"
 
-1. Verify backend is running on port 10771
+1. Verify backend is running on port 11140
 2. Check CORS configuration allows the webapp origin (should include tauri://localhost)
 3. In dev mode, ensure Vite proxy forwards /api requests to the backend
 
@@ -175,7 +175,7 @@ npm install
 npm run dev
 ```
 
-The frontend runs on port 10770 and proxies /api requests to the backend on port 10771.
+The frontend runs on port 11139 and proxies /api requests to the backend on port 11140.
 
 ### Building NSIS Installer
 
@@ -203,7 +203,7 @@ uv run ruff format src/ --check
 ## Transport
 
 - Default: stdio (Claude Desktop, Cursor)
-- Optional: HTTP on port 10771 when RESOLUME_MCP_PORT is set
+- Optional: HTTP on port 11140 when RESOLUME_MCP_PORT is set
 
 ## Dependencies
 

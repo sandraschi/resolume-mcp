@@ -4,8 +4,8 @@ Resolume Arena VJ software control via Open Sound Control. 6 MCP tools for live 
 
 ## Quick Info
 - Entry point: `python -m resolume_mcp`
-- Backend port: 10771
-- Frontend port: 10770
+- Backend port: 11140
+- Frontend port: 11139
 - OSC ports: 7000 (in), 7001 (out)
 
 ## Tools

@@ -69,7 +69,7 @@ export function Settings() {
                             <Label className="text-slate-300">API Host</Label>
                             <Input
                                 className="bg-slate-900 border-slate-800 text-slate-100 placeholder:text-slate-400"
-                            defaultValue="http://localhost:10770"
+                            defaultValue="http://localhost:11139"
                             />
                         </div>
                         <Button variant="outline" className="border-slate-800 text-slate-300 hover:bg-slate-800">
