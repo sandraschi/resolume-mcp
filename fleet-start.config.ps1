@@ -10,6 +10,7 @@
         Kind          = 'uvicorn'
         UvicornTarget = 'web_sota.backend.server:app'
         SyncExtras    = @('dev')
+        SyncOnStart  = $true
         Env           = @{ WEB_PORT = '11140' }
     }
     Frontend = @{

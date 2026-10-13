@@ -8,12 +8,12 @@
 </p>
 
 
-> 📖 **[Installation Guide](INSTALL.md)** — quick start, manual setup, and troubleshooting
+> 📖 **[Installation Guide](INSTALL.md)** -- quick start, manual setup, and troubleshooting
 
 **MCP server for Resolume Arena VJ software control and automation - Live video mixing from natural language commands**
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![FastMCP](https://img.shields.io/badge/FastMCP-2.12%2B-green.svg)](https://github.com/jlowin/fastmcp)
+[![FastMCP](https://img.shields.io/badge/FastMCP-3.4%2B-green.svg)](https://github.com/jlowin/fastmcp)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Resolume](https://img.shields.io/badge/Resolume-Arena-orange.svg)](https://resolume.com/)
 
@@ -293,6 +293,16 @@ This project adheres to **SOTA 14.1** industrial standards for high-fidelity age
 - **Automation**: [Justfile](./justfile) recipes for all fleet operations (`just lint`, `just fix`, `just dev`).
 - **Security**: Automated audits via `bandit` and `safety`.
 
+## Fleet Crossconnects (Companions)
+
+`resolume-mcp` works completely standalone. You can optionally connect it with companion servers in the `sandraschi` fleet to unlock extended features:
+
+| Companion Server | Feature Unlocked | Status | Setup |
+|---|---|---|---|
+| [`mixx-dj-mcp`](https://github.com/sandraschi/mixx-dj-mcp) | ndi-audio-video-stream, bpm-synced-clip-triggers | Optional | [Install Guide](https://github.com/sandraschi/mixx-dj-mcp#quick-install) |
+
+> **Self-Contained Companions**: Fleet companions operate independently. Installing companions does not trigger transitive dependency chains.
+
 ##  License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -316,6 +326,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **Status:** Beta - Ready for live VJ performances  
-**MCP Version:** FastMCP 3.1.0+  
+**MCP Version:** FastMCP 3.4+  
 **Maintained by:** Sandra Schipal  
-**Last Updated:** 2025-12-24
+**Last Updated:** 2026-09-12
