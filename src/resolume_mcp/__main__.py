@@ -10,7 +10,7 @@ from .transport import run_server
 
 mcp = FastMCP("resolume-mcp")
 
-# Register tools — the tool modules accept the mcp instance and register on it
+# Register tools - the tool modules accept the mcp instance and register on it
 tools.register_all(mcp)
 
 

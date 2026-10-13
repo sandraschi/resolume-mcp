@@ -1,6 +1,6 @@
 """MCP server for Resolume VJ software control and automation
-
-FastMCP 2.12+ compliant MCP server.
+ 
+FastMCP 3.4+ compliant MCP server.
 """
 
 __version__ = "0.1.0"
