@@ -81,7 +81,7 @@ async def your_tool(
     - action2: Description
     - action3: Description
     
-    (Complete docstring here - FastMCP 2.12+ standard)
+    (Complete docstring here - FastMCP 3.4+ standard)
     '''
     pass
 \\\
@@ -136,7 +136,7 @@ cat docs/repository-analysis-*.md
 
 - **Central Docs:** D:\Dev\repos\mcp-central-docs\
 - **Standards:** mcp-central-docs/STANDARDS.md
-- **FastMCP Guide:** mcp-central-docs/FASTMCP_2.12_MIGRATION.md
+- **FastMCP Guide:** mcp-central-docs/standards/FASTMCP_STANDARDS.md
 - **Portmanteau Pattern:** mcp-central-docs/patterns/PORTMANTEAU_CONCEPT.md
 
 ---
